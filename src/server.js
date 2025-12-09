@@ -12,7 +12,11 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(cors());
+app.use(cors({
+  origin: process.env.CLIENT_URL || '*',  
+  methods: ['GET', 'POST', 'PUT','PATCH','DELETE'],
+  credentials: true
+}));
 
 app.use((req, res, next) => {
   req.requestedAt = new Date().toISOString();
