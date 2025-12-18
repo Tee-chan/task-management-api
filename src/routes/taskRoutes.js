@@ -9,6 +9,7 @@ import {
   getDeletedTasks, 
   permanentDeleteTask
 } from "../controllers/taskController.js";
+import { createTaskLimiter } from "../controllers/taskController.js";
 import { verifyUserToken } from "../middleware/auth.js";
 
 const router = express.Router();
@@ -18,7 +19,7 @@ const router = express.Router();
 router.get("/trash", verifyUserToken, getDeletedTasks);
 
 router.route("/")
-.post(verifyUserToken, createTask)
+.post(verifyUserToken, createTaskLimiter, createTask)
 .get(verifyUserToken, getTasks);
 
 router.route("/:id")
@@ -26,8 +27,8 @@ router.route("/:id")
   .put(verifyUserToken, updateTask)    
   .delete(verifyUserToken, deleteTask); 
 
-  router.patch('/:id/restore', verifyUserToken, restoreTask);
-  router.delete('/:id/permanent', verifyUserToken, permanentDeleteTask);
+router.patch('/:id/restore', verifyUserToken, restoreTask);
+router.delete('/:id/permanent', verifyUserToken, permanentDeleteTask);
 
 
 

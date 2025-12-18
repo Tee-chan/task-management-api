@@ -190,7 +190,7 @@ Content-Type: application/json
 
 ### 7. SoftDelete a Task
 ```http
-DEL http://localhost:5000/api/v1/tasks/taskId
+DELETE http://localhost:5000/api/v1/tasks/taskId
 Authorization: Bearer YOUR_JWT_TOKEN
 Content-Type: application/json
 ```
@@ -211,7 +211,7 @@ Content-Type: application/json
 
 ### 10. Permanently Delete a Task
 ```http
-DEL http://localhost:5000/api/v1/tasks/taskId/permanent
+DELETE http://localhost:5000/api/v1/tasks/taskId/permanent
 Authorization: Bearer YOUR_JWT_TOKEN
 Content-Type: application/json
 ```

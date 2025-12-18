@@ -1,12 +1,23 @@
 import cors from "cors";
 import express from "express";
+import rateLimit from "express-rate-limit";
 import startDbAndServer from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import taskRoutes from "./routes/taskRoutes.js";
 
 
 const app = express();
-
+// Rate limiter - max 100 requests per 15 minutes per IP
+const Limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100, 
+  message: {
+    success: false,
+    error: "Too many requests from this IP, please try again after 15 minutes"
+  },
+  standardHeaders: true, 
+  legacyHeaders: false,
+});
 
 // middleware
 app.use(express.json());
@@ -43,8 +54,8 @@ app.get("/", (req, res) => {
 });
 
 // routes
-app.use("/api/v1/auth", authRoutes);
-app.use("/api/v1/tasks", taskRoutes); 
+app.use("/api/v1/auth", Limiter, authRoutes);
+app.use("/api/v1/tasks", Limiter, taskRoutes); 
 
 
 // for invalid routes

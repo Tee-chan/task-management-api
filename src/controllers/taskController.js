@@ -1,5 +1,6 @@
 import Task from "../models/Task.js";
 import mongoose from "mongoose";
+import rateLimit from "express-rate-limit";
 
 // @desc    Create new task
 // @route   POST /api/v1/tasks
@@ -44,6 +45,16 @@ const createTask = async (req, res) => {
     return res.status(500).json({ success: false, error: "Failed to create user's tasks" });
   }
 }
+
+// Rate Limiter for Task Creation - max 20 tasks per hour per user
+const createTaskLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, 
+  max: 20, 
+  message: {
+    success: false,
+    message: "Task creation limit reached. Slow down!"
+  }
+});
 
 
 // NOTE: Query Filtering (Searching) --- do not do this in PUT/PATCH
@@ -329,4 +340,4 @@ const permanentDeleteTask = async (req, res) => {
 }
 
 
-export { createTask, getTasks, getTask, updateTask, deleteTask, restoreTask, getDeletedTasks, permanentDeleteTask  };
+export { createTask, createTaskLimiter, getTasks, getTask, updateTask, deleteTask, restoreTask, getDeletedTasks, permanentDeleteTask  };

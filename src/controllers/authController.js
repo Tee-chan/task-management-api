@@ -2,7 +2,7 @@
 import { comparePassword } from "../middleware/bcrypt.js";
 import { signJwt } from "../middleware/auth.js";
 import User from "../models/User.js";
-
+import rateLimit from "express-rate-limit";
 
 // @decription: Register a user
 // @route POST /api/auth/register
@@ -135,8 +135,13 @@ const loginUser = async (req, res) => {
   }
 };
 
-// @decription: Get current user
-// @route GET /api/auth/me
-// @access Private
+// Rate Limiter for Auth - max 10 requests per hour per IP
+const authLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, 
+  max: 10, 
+  message: {
+    error: "Too many login attempts. Please try again in an hour."
+  }
+});
 
-export {registerUser, loginUser } ;
+export {registerUser, loginUser, authLimiter } ;
