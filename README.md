@@ -1,32 +1,27 @@
-# 🧠 TaskRunner API
+# TaskRunner API
 
 A robust RESTful API for task management with user authentication, built with Node.js, Express, and MongoDB.
 
-## ✨ Features
+## Features
 
 ### Core Task Management
-- ✅ Full task CRUD: Task Creation, Task Retrieval, Task Updates, Task Deletion 
-- ✅ Add title, status, due dates and descriptions/notes
-- ✅ User authentication (register, login)
-- ✅ Task ownership enforcement
-- ✅ Pagination
-- ✅ Filtering (status, priority, search)
-- ✅ Sorting
-- ✅ Trash management: Soft delete with restore, Permanent delete
+- Full task CRUD: Task Creation, Task Retrieval, Task Updates, Task Deletion 
+- Add title, status, due dates and descriptions/notes
+- User authentication (register, login)
+- Task ownership enforcement
+- Pagination
+- Filtering (status, priority, search)
+- Sorting
+- Trash management: Soft delete with restore, Permanent delete
 
 
 ### User Authentication & Authorization
-- 🔐 User registration with encrypted passwords
-- 🔑 JWT-based authentication
-- 👤 User-specific task isolation (users only see their own tasks)
+- User registration with encrypted passwords
+- JWT-based authentication
+- User-specific task isolation (users only see their own tasks)
 
-### Advanced Features TO Add
-- Prioritiy weights for tasks
-- Reminders (emails and notifications)
-- Catergories and sub-tasks for better orgaanization and better user experience
----
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Node.js** - JavaScript runtime
 - **Express.js** - Web framework
@@ -36,7 +31,7 @@ A robust RESTful API for task management with user authentication, built with No
 - **bcryptjs** - Password hashing
 ---
 
-## ⚙️ Setup Instructions
+## Setup Instructions
 
 ### Prerequisites
 
@@ -62,9 +57,9 @@ A robust RESTful API for task management with user authentication, built with No
    Create a `.env` file in the root directory:
    ```env
    PORT=5000
-   MONGODB_URI=
-   JWT_SECRET=
-   NODE_ENV=
+   MONGODB_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/<dbName>
+   JWT_SECRET=your_secret_token
+   NODE_ENV=development or production
    ```
 
 4. **Start MongoDB:**
@@ -75,6 +70,7 @@ A robust RESTful API for task management with user authentication, built with No
    ```
    
    Or use MongoDB Atlas connection string in your `.env` file.
+
 
 5. **Start the server:**
    
@@ -95,7 +91,7 @@ A robust RESTful API for task management with user authentication, built with No
 
 ---
 
-## 📡 API Endpoints
+## API Endpoints
 
 ### Authentication Routes
 
@@ -129,7 +125,7 @@ A robust RESTful API for task management with user authentication, built with No
 
 ---
 
-## 🧪 Testing with Postman
+## Testing with Postman
 
 ### 1. Register a User
 ```http
@@ -185,43 +181,44 @@ Authorization: Bearer YOUR_JWT_TOKEN
 Content-Type: application/json
 ```
 
-### 5. Update a Task
+### 6. Update a Task
 ```http
 PUT http://localhost:5000/api/v1/tasks/taskId
 Authorization: Bearer YOUR_JWT_TOKEN
 Content-Type: application/json
 ```
 
-### 5. softDelete a Task
+### 7. SoftDelete a Task
 ```http
 DEL http://localhost:5000/api/v1/tasks/taskId
 Authorization: Bearer YOUR_JWT_TOKEN
 Content-Type: application/json
----
+```
 
-### 6. restore a softDeleted Task
+### 8. Restore a softDeleted Task
 ```http
 PATCH http://localhost:5000/api/v1/tasks/taskId/restore
 Authorization: Bearer YOUR_JWT_TOKEN
 Content-Type: application/json
----
+```
 
-### 7. Get all deleted Tasks
+### 9. Get all deleted Tasks
 ```http
 GET http://localhost:5000/api/v1/tasks/trash
 Authorization: Bearer YOUR_JWT_TOKEN
 Content-Type: application/json
----
+```
 
-### 8. Permanently Delete a Task
+### 10. Permanently Delete a Task
 ```http
 DEL http://localhost:5000/api/v1/tasks/taskId/permanent
 Authorization: Bearer YOUR_JWT_TOKEN
 Content-Type: application/json
+```
+
 ---
 
-
-## 📁 Project Structure
+## Project Structure
 
 ```
 task-api/
@@ -244,11 +241,12 @@ task-api/
 ├── .gitignore                 # Git ignore rules
 ├── package.json               # Dependencies
 └── README.md                  # Documentation
+
 ```
 
 ---
 
-## 🔒 Security Features
+## Security Features
 
 - **Password Hashing** - bcryptjs with salt rounds
 - **JWT Authentication** - Secure token-based auth
@@ -257,41 +255,43 @@ task-api/
 
 ---
 
-## 📝 Environment Variables
+## Environment Variables
 
 | Variable | Description | Example |
 |----------|-------------|---------|
 | `PORT` | Server port | `5000` |
-| `MONGODB_URI` | MongoDB connection string | `mongodb://localhost:27017/taskapi` |
+| `MONGODB_URI` | MongoDB connection string | `mongodb+srv://<username>:<password>@cluster.mongodb.net/<dbName>` |
 | `JWT_SECRET` | Secret key for JWT signing | `your_secret_key_here for token encryption` |
 | `NODE_ENV` | Environment mode | `development` or `production` |
 
 ---
 
-## 🚀 Future Enhancements
+## Future Enhancements
 
 - [ ] Email verification for new users
 - [ ] Password reset functionality
 - [ ] Task reminders and notifications
 - [ ] Export tasks (CSV, PDF)
+- [ ] Prioritiy weights for tasks
+- [ ] Catergories and sub-tasks for better organization and user experience
 - [ ] Mobile app integration
 - [ ] WebSocket for real-time updates
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
 ---
 
-## 📄 License
+## License
 
 This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-## 👨‍💻 Author
+## Author
 
 **Tee-chan**
 - GitHub: [@Tee-chan](https://github.com/Tee-chan)

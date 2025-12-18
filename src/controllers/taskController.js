@@ -46,7 +46,8 @@ const createTask = async (req, res) => {
 }
 
 
-// Query Filtering (Searching) --- do not do this in PUT/PATCH
+// NOTE: Query Filtering (Searching) --- do not do this in PUT/PATCH
+
 // @desc    Get all user tasks with filtering, search, and sorting
 // @route   GET /api/v1/tasks
 // @access  Private
