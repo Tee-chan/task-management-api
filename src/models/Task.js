@@ -17,20 +17,35 @@ const taskSchema = new mongoose.Schema(
       type: String,
       enum: ["pending", "in-progress", "completed"],
       default: "pending",
+      trim: true,
+      lowercase: true
     },
     priority: {
       type: String,
       enum: ["low", "medium", "high"],
       default: "medium",
+      trim: true,
+      lowercase: true
     },
-    dueDate: {
+    lastStatusChange: {
       type: Date,
       default: Date.now,
     },
-    tags: [{
-      type: String,
-      trim: true,
-    }],
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
+    completedAt: {
+      type: Date,
+      default: null,
+},
+    deletedAt: {
+      type: Date,
+      default: null,
+    },
+    duedate: {
+      type: Date,
+    },
     completed: {
       type: Boolean,
       default: false,
@@ -46,8 +61,8 @@ const taskSchema = new mongoose.Schema(
   }
 );
 
-// Index for faster queries
-taskSchema.index({ user: 1, completed: 1 });
-taskSchema.index({ user: 1, priority: 1 });
+taskSchema.index({ user: 1, completed: 1, priority: 1 });
+taskSchema.index({ user: 1, isDeleted: 1 });
+taskSchema.index({ user: 1, status: 1 });
 
 export default mongoose.model("Task", taskSchema);

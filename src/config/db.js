@@ -10,13 +10,8 @@ const startDbAndServer = async (app) => {
     mongoose
       .connect(process.env.MONGODB_URI)
       .then(async () => {
-        // todo: check if db has active admin user account
-        const adminExists = await User.findOne({
-          status: "active",
-        });
-            // console.log("MongoDB Connected ");
-
         app.listen(PORT, () => console.log("THE SERVER AND DB ARE OK"));
+        // console.log("MongoDB Connected ");
       })
       .catch((error) => {
         console.log("Error connecting to the database:", error.message);

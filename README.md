@@ -5,12 +5,14 @@ A robust RESTful API for task management with user authentication, built with No
 ## ✨ Features
 
 ### Core Task Management
-- ✅ Task Creation, Task Retrieval, Task Updates, Task Deletion 
-- ✅ Mark tasks as complete/incomplete
-- ✅ Set task priority (low, medium, high)
+- ✅ Full task CRUD: Task Creation, Task Retrieval, Task Updates, Task Deletion 
 - ✅ Add title, status, due dates and descriptions/notes
-- ✅ Organize tasks by categories/tags
-- ✅ Error Handling: mechanisms to handle and respond to API errors.
+- ✅ User authentication (register, login)
+- ✅ Task ownership enforcement
+- ✅ Pagination
+- ✅ Filtering (status, priority, search)
+- ✅ Sorting
+- ✅ Trash management: Soft delete with restore, Permanent delete
 
 
 ### User Authentication & Authorization
@@ -18,9 +20,10 @@ A robust RESTful API for task management with user authentication, built with No
 - 🔑 JWT-based authentication
 - 👤 User-specific task isolation (users only see their own tasks)
 
-### Advanced Features 
-- 🔍 Search and filter tasks
-- 📄 Pagination for task lists
+### Advanced Features TO Add
+- Prioritiy weights for tasks
+- Reminders (emails and notifications)
+- Catergories and sub-tasks for better orgaanization and better user experience
 ---
 
 ## 🛠️ Tech Stack
@@ -31,7 +34,6 @@ A robust RESTful API for task management with user authentication, built with No
 - **Mongoose** - MongoDB ODM
 - **JWT** - Authentication tokens
 - **bcryptjs** - Password hashing
-- **Express Validator** - Input validation
 ---
 
 ## ⚙️ Setup Instructions
@@ -60,9 +62,9 @@ A robust RESTful API for task management with user authentication, built with No
    Create a `.env` file in the root directory:
    ```env
    PORT=5000
-   MONGODB_URI=mongodb://localhost:27017/taskapi
-   JWT_SECRET=your_super_secret_key_change_this_in_production
-   NODE_ENV=development
+   MONGODB_URI=
+   JWT_SECRET=
+   NODE_ENV=
    ```
 
 4. **Start MongoDB:**
@@ -112,7 +114,10 @@ A robust RESTful API for task management with user authentication, built with No
 | POST | `/api/tasks` | Create new task | Yes |
 | PUT | `/api/tasks/:id` | Update task | Yes |
 | DELETE | `/api/tasks/:id` | Delete task | Yes |
-| PATCH | `/api/tasks/:id/complete` | Toggle task completion | Yes |
+| PATCH | `/api/v1/tasks/:id/restore` | Restore deleted tasks | Yes |
+| GET | `/api/v1/tasks/trash` | Get deleted tasks | Yes |
+| DELETE | `/api/v1/tasks/:id/permanent` | Permanently delete tasks | Yes |
+
 
 ### Query Parameters for GET `/api/tasks`
 
@@ -168,29 +173,53 @@ Content-Type: application/json
 
 ### 4. Get All Tasks
 ```http
-GEThttp://localhost:5000/api/v1/tasks
+GET http://localhost:5000/api/v1/tasks
 Authorization: Bearer YOUR_JWT_TOKEN
+Content-Type: application/json
 ```
 
 ### 5. Get Task
 ```http
 GET http://localhost:5000/api/v1/tasks/taskId
 Authorization: Bearer YOUR_JWT_TOKEN
+Content-Type: application/json
 ```
 
 ### 5. Update a Task
 ```http
-PUT http://localhost:5000/api/tasks/taskId
+PUT http://localhost:5000/api/v1/tasks/taskId
 Authorization: Bearer YOUR_JWT_TOKEN
 Content-Type: application/json
 ```
 
-### 5. Delete a Task
+### 5. softDelete a Task
 ```http
-DEL http://localhost:5000/api/tasks/taskId
+DEL http://localhost:5000/api/v1/tasks/taskId
 Authorization: Bearer YOUR_JWT_TOKEN
 Content-Type: application/json
 ---
+
+### 6. restore a softDeleted Task
+```http
+PATCH http://localhost:5000/api/v1/tasks/taskId/restore
+Authorization: Bearer YOUR_JWT_TOKEN
+Content-Type: application/json
+---
+
+### 7. Get all deleted Tasks
+```http
+GET http://localhost:5000/api/v1/tasks/trash
+Authorization: Bearer YOUR_JWT_TOKEN
+Content-Type: application/json
+---
+
+### 8. Permanently Delete a Task
+```http
+DEL http://localhost:5000/api/v1/tasks/taskId/permanent
+Authorization: Bearer YOUR_JWT_TOKEN
+Content-Type: application/json
+---
+
 
 ## 📁 Project Structure
 
@@ -234,7 +263,7 @@ task-api/
 |----------|-------------|---------|
 | `PORT` | Server port | `5000` |
 | `MONGODB_URI` | MongoDB connection string | `mongodb://localhost:27017/taskapi` |
-| `JWT_SECRET` | Secret key for JWT signing | `your_secret_key_here` |
+| `JWT_SECRET` | Secret key for JWT signing | `your_secret_key_here for token encryption` |
 | `NODE_ENV` | Environment mode | `development` or `production` |
 
 ---
